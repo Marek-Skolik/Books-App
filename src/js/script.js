@@ -127,6 +127,26 @@ class BooksList {
     this.data = dataSource.books;
   }
 
+  renderBooks() {
+    const bookTemplates = {
+      books: Handlebars.compile(
+        document.querySelector(select.templateOf.book).innerHTML
+      ),
+    };
+
+    for (const book of this.data) {
+      book.ratingBgc = this.determineRatingBgc(book.rating);
+      book.ratingWidth = book.rating * 10;
+
+      const generatedHTML = bookTemplates.books(book);
+      const bookHTML = utils.createDOMFromHTML(generatedHTML);
+      const booksContainer = document.querySelector(
+        select.containerOf.bookList
+      );
+      booksContainer.appendChild(bookHTML);
+    }
+  }
+
   getElements() {
     this.dom = {};
     this.dom.books = document.querySelector(select.containerOf.bookList);
@@ -205,4 +225,4 @@ class BooksList {
 }
 
 const app = new BooksList();
-
+console.log(app);
